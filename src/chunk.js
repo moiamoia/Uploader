@@ -56,7 +56,8 @@ utils.extend(Chunk.prototype, {
       identifier: this.file.uniqueIdentifier,
       filename: this.file.name,
       relativePath: this.file.relativePath,
-      totalChunks: this.file.chunks.length
+      totalChunks: this.file.chunks.length,
+      hash:this.file.hash,
     }
   },
 
