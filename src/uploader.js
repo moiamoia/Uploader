@@ -221,7 +221,7 @@ utils.extend(Uploader.prototype, {
   gethash(file){
         const _file = file;
         return new Promise((resolve,reject)=>{
-            var blobSlice = window.File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
+            var blobSlice = window.File.prototype.slice || window.File.prototype.mozSlice || window.File.prototype.webkitSlice;
              let  file = _file,
                 chunkSize = 1024*1024*10,                             // Read in chunks of 2MB
                 chunks = Math.ceil(_file.size / chunkSize),
