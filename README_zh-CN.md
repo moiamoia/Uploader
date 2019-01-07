@@ -2,8 +2,6 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/uploader.svg)](https://saucelabs.com/u/uploader)
 
-![QQ](https://github.com/simple-uploader/Uploader/blob/develop/assets/simple-uploader-QQ.jpg?raw=true)
-
 simple-uploader.js（也称 Uploader) 是一个上传库，支持多并发上传，文件夹、拖拽、可暂停继续、秒传、分块上传、出错自动重传、手工重传、进度、剩余时间、上传速度等特性；该上传库依赖 HTML5 File API。
 
 Fork [flow.js](https://github.com/flowjs/flow.js)，但是进行了重构。
@@ -42,7 +40,7 @@ git clone https://github.com/simple-uploader/Uploader
 
 ```javascript
 var uploader = new Uploader({
-  target: '/api/photo/redeem-upload-token', 
+  target: '/api/photo/redeem-upload-token',
   query: { upload_token: 'my_token' }
 })
 // 如果不支持 需要降级的地方
@@ -91,6 +89,7 @@ uploader.on('fileError', function (rootFile, file, message) {
 * `identifier`: 这个就是每个文件的唯一标示。
 * `filename`: 文件名。
 * `relativePath`: 文件夹上传的时候文件的相对路径属性。
+* `initProgress`: 已上传进度，数量，默认0
 
 一个分块可以被上传多次，当然这肯定不是标准行为，但是在实际上传过程中是可能发生这种事情的，这种重传也是本库的特性之一。
 
@@ -148,7 +147,7 @@ var r = new Uploader({ opt1: 'val', ...})
 * `chunkRetryInterval` 重试间隔，值可以是任意正整数，如果是 `null` 则代表立即重试，默认 `null`。
 * `progressCallbacksInterval` 进度回调间隔，默认是 `500`。
 * `speedSmoothingFactor` 主要用于计算平均速度，值就是从 0 到 1，如果是 1 那么上传的平均速度就等于当前上传速度，如果说长时间上传的话，建议设置为 `0.02`，这样剩余时间预估会更精确，这个参数是需要和 `progressCallbacksInterval` 一起调整的，默认是 `0.1`。
-* `successStatuses` 认为响应式成功的响应码，默认 `[200, 201, 
+* `successStatuses` 认为响应式成功的响应码，默认 `[200, 201,
 202]`。
 * `permanentErrors` 认为是出错的响应码，默认 `[404, 415, 500, 501]`。
 * `initialPaused` 初始文件 paused 状态，默认 `false`。

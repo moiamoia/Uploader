@@ -4,8 +4,6 @@
 
 [中文](./README_zh-CN.md)
 
-![QQ](https://github.com/simple-uploader/Uploader/blob/develop/assets/simple-uploader-QQ.jpg?raw=true)
-
 A JavaScript library providing multiple simultaneous, stable, fault-tolerant and resumable/restartable file uploads via the HTML5 File API.
 
 Forked [flow.js](https://github.com/flowjs/flow.js) but refactor it.
@@ -47,7 +45,7 @@ A new `Uploader` object is created with information of what and where to post:
 
 ```javascript
 var uploader = new Uploader({
-  target: '/api/photo/redeem-upload-token', 
+  target: '/api/photo/redeem-upload-token',
   query: { upload_token: 'my_token' }
 })
 // Uploader isn't supported, fall back on a different method
@@ -206,8 +204,8 @@ parameter must be adjusted together with `progressCallbacksInterval` parameter. 
 * `.dragover(event)` Drop area dragover event.
 * `.dragenter(event)` Drop area dragenter event.
 * `.dragleave(event)` Drop area dragleave event.
-* `.fileSuccess(rootFile, file, message, chunk)` A specific file was completed. First argument `rootFile` is the root `Uploader.File` instance which contains or equal the completed file, second argument `file` argument is instance of `Uploader.File` too, it's the current completed file object, third argument `message` contains server response. Response is always a string. 
-Fourth argument `chunk` is instance of `Uploader.Chunk`. You can get response status by accessing xhr 
+* `.fileSuccess(rootFile, file, message, chunk)` A specific file was completed. First argument `rootFile` is the root `Uploader.File` instance which contains or equal the completed file, second argument `file` argument is instance of `Uploader.File` too, it's the current completed file object, third argument `message` contains server response. Response is always a string.
+Fourth argument `chunk` is instance of `Uploader.Chunk`. You can get response status by accessing xhr
 object `chunk.xhr.status`.
 * `.fileComplete(rootFile)` A root file(Folder) was completed.
 * `.fileProgress(rootFile, file, chunk)` Uploading progressed for a specific file.
@@ -219,7 +217,7 @@ added.
 * `.filesAdded(files, fileList, event)` Same as fileAdded, but used for multiple file validation.
 * `.filesSubmitted(files, fileList, event)` Same as filesAdded, but happens after the file is added to upload queue. Can be used to start upload of currently added files.
 * `.fileRemoved(file)` The specific file was removed from the upload queue. Combined with filesSubmitted, can be used to notify UI to update its state to match the upload queue.
-* `.fileRetry(rootFile, file, chunk)` Something went wrong during upload of a specific file, uploading is being 
+* `.fileRetry(rootFile, file, chunk)` Something went wrong during upload of a specific file, uploading is being
 retried.
 * `.fileError(rootFile, file, message, chunk)` An error occurred during upload of a specific file.
 * `.uploadStart()` Upload has been started.
