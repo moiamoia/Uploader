@@ -2,6 +2,7 @@ var utils = require('./utils')
 var event = require('./event')
 var File = require('./file')
 var Chunk = require('./chunk')
+var SparkMD5 = require('spark-md5')
 
 var version = '__VERSION__'
 

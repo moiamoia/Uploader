@@ -55,7 +55,8 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sauce-launcher": "^1.1.0",
     "pump": "^1.0.2",
-    "sinon": "1.7.3"
+    "sinon": "1.7.3",
+    "spark-md5": "^3.0.0"
   },
   "directories": {
     "test": "test"
