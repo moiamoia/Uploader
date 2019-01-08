@@ -147,8 +147,12 @@ utils.extend(Uploader.prototype, {
          var uniqueIdentifier = this.generateUniqueIdentifier(file)
          let hash = await this.gethash(file)
          if(this.uploader.opts.progressByHash){
-            await fetch(this.uploader.opts.progressByHash+'?hash='+hash).then(data=>data.json()).then(data=>{
-              this.uploader.opts.initProgress = data.progress
+            await fetch(this.uploader.opts.progressByHash+'?hash='+hash)
+            .then(data=>data.json())
+            .then(progress=>{
+              if(progress>=0){
+                this.uploader.opts.initProgress = progress
+              }
             })
           }
          if (this.opts.allowDuplicateUploads || !this.getFromUniqueIdentifier(uniqueIdentifier)) {

@@ -90,7 +90,7 @@ uploader.on('fileError', function (rootFile, file, message) {
 * `filename`: 文件名。
 * `relativePath`: 文件夹上传的时候文件的相对路径属性。
 * `initProgress`: 已上传进度，数量，默认0
-* `progressByHash`: 接口获取initProgress，覆盖initProgress，get请求，发送如    http://****?hasxh=xxx
+* `progressByHash`: 接口获取initProgress，覆盖initProgress，get请求，发送如    http://****?hasxh=xxx,just return a number
 
 一个分块可以被上传多次，当然这肯定不是标准行为，但是在实际上传过程中是可能发生这种事情的，这种重传也是本库的特性之一。
 
