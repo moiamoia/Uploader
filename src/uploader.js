@@ -142,31 +142,32 @@ utils.extend(Uploader.prototype, {
   async addFiles (files, evt) {
     var _files = []
     var oldFileListLen = this.fileList.length
-     for (let file of files)  {
-       if ((!ie10plus || ie10plus && file.size > 0) && !(file.size % 4096 === 0 && (file.name === '.' || file.fileName === '.'))) {
-         var uniqueIdentifier = this.generateUniqueIdentifier(file)
-         let hash = await this.gethash(file)
-         if(this.uploader.opts.progressByHash){
-            await fetch(this.uploader.opts.progressByHash+'?hash='+hash)
-            .then(data=>data.json())
-            .then(progress=>{
-              if(progress>=0){
+    for (let file of files) {
+      if ((!ie10plus || ie10plus && file.size > 0) && !(file.size % 4096 === 0 && (file.name === '.' || file.fileName === '.'))) {
+        var uniqueIdentifier = this.generateUniqueIdentifier(file)
+        let hash = await this.gethash(file)
+        if (this.uploader.opts.progressByHash) {
+          await fetch(this.uploader.opts.progressByHash + '?hash=' + hash)
+            .then(data => data.json())
+            .then(progress => {
+              if (progress >= 0) {
                 this.uploader.opts.initProgress = progress
               }
             })
+        }
+        if (this.opts.allowDuplicateUploads || !this.getFromUniqueIdentifier(uniqueIdentifier)) {
+          var _file = new File(this, file, this)
+          _file.uniqueIdentifier = uniqueIdentifier
+          _file.hash = hash
+          _file.uuid = hash
+          if (this._trigger('fileAdded', _file, evt)) {
+            _files.push(_file)
+          } else {
+            File.prototype.removeFile.call(this, _file)
           }
-         if (this.opts.allowDuplicateUploads || !this.getFromUniqueIdentifier(uniqueIdentifier)) {
-           var _file = new File(this, file, this)
-           _file.uniqueIdentifier = uniqueIdentifier
-           _file.hash = hash
-           if (this._trigger('fileAdded', _file, evt)) {
-             _files.push(_file)
-           } else {
-             File.prototype.removeFile.call(this, _file)
-           }
-         }
-       }
-     }
+        }
+      }
+    }
     // utils.each(files, function (file) {
     //   // Uploading empty file IE10/IE11 hangs indefinitely
     //   // Directories have size `0` and name `.`
@@ -228,45 +229,45 @@ utils.extend(Uploader.prototype, {
     return file.size + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, '')
   },
 
-  gethash(file){
-        const _file = file;
-        return new Promise((resolve,reject)=>{
-            var blobSlice = window.File.prototype.slice || window.File.prototype.mozSlice || window.File.prototype.webkitSlice;
-             let  file = _file,
-                chunkSize = 1024*1024*10,                             // Read in chunks of 2MB
-                chunks = Math.ceil(_file.size / chunkSize),
-                currentChunk = 0,
-                spark = new SparkMD5.ArrayBuffer(),
-                fileReader = new FileReader();
+  gethash(file) {
+    const _file = file
+    return new Promise((resolve, reject) => {
+      var blobSlice = window.File.prototype.slice || window.File.prototype.mozSlice || window.File.prototype.webkitSlice
+      var file = _file,
+        chunkSize = 1024 * 1024 * 10, // Read in chunks of 2MB
+        chunks = Math.ceil(_file.size / chunkSize),
+        currentChunk = 0,
+        spark = new SparkMD5.ArrayBuffer(),
+        fileReader = new FileReader()
 
-            fileReader.onload = function (e) {
-                console.log('read chunk nr', currentChunk + 1, 'of', chunks);
-                spark.append(e.target.result);                   // Append array buffer
-                currentChunk++;
+      fileReader.onload = function (e) {
+        console.log('read chunk nr', currentChunk + 1, 'of', chunks)
+        spark.append(e.target.result) // Append array buffer
+        currentChunk++
 
-                if (currentChunk < chunks) {
-                    loadNext();
-                } else {
-                    console.log('finished loading');
-                    // console.info('computed hash', spark.end());  // Compute hash
-                    resolve(spark.end())
-                }
-            };
+        if (currentChunk < chunks) {
+          loadNext()
+        } else {
+          console.log('finished loading')
+          // console.info('computed hash', spark.end());  // Compute hash
+          resolve(spark.end())
+        }
+      }
 
-            fileReader.onerror = function () {
-                console.warn('oops, something went wrong.');
-            };
+      fileReader.onerror = function () {
+        console.warn('oops, something went wrong.')
+      }
 
-            function loadNext() {
-                var start = currentChunk * chunkSize,
-                    end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+      function loadNext() {
+        var start = currentChunk * chunkSize,
+          end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize
 
-                fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
-            }
+        fileReader.readAsArrayBuffer(blobSlice.call(file, start, end))
+      }
 
-            loadNext();
-        })
-    },
+      loadNext()
+    })
+  },
 
   getFromUniqueIdentifier: function (uniqueIdentifier) {
     var ret = false
