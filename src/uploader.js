@@ -3,6 +3,7 @@ var event = require('./event')
 var File = require('./file')
 var Chunk = require('./chunk')
 var SparkMD5 = require('spark-md5')
+require('whatwg-fetch')
 
 var version = '__VERSION__'
 
@@ -145,6 +146,11 @@ utils.extend(Uploader.prototype, {
        if ((!ie10plus || ie10plus && file.size > 0) && !(file.size % 4096 === 0 && (file.name === '.' || file.fileName === '.'))) {
          var uniqueIdentifier = this.generateUniqueIdentifier(file)
          let hash = await this.gethash(file)
+         if(this.uploader.opts.progressByHash){
+            await fetch(this.uploader.opts.progressByHash+'?hash='+hash).then(data=>data.json()).then(data=>{
+              this.uploader.opts.initProgress = data.progress
+            })
+          }
          if (this.opts.allowDuplicateUploads || !this.getFromUniqueIdentifier(uniqueIdentifier)) {
            var _file = new File(this, file, this)
            _file.uniqueIdentifier = uniqueIdentifier
