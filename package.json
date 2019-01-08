@@ -55,9 +55,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sauce-launcher": "^1.1.0",
     "pump": "^1.0.2",
-    "sinon": "1.7.3",
-    "spark-md5": "^3.0.0",
-    "whatwg-fetch": "^3.0.0"
+    "sinon": "1.7.3"
   },
   "directories": {
     "test": "test"
@@ -70,5 +68,9 @@
   "bugs": {
     "url": "https://github.com/moiamoia/Uploader/issues"
   },
-  "homepage": "https://github.com/moiamoia/Uploader#readme"
+  "homepage": "https://github.com/moiamoia/Uploader#readme",
+  "dependencies": {
+    "spark-md5": "^3.0.0",
+    "whatwg-fetch": "^3.0.0"
+  }
 }
