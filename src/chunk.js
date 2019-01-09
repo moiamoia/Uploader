@@ -51,21 +51,23 @@ utils.extend(Chunk.prototype, {
     const chunkNumber = this.offset + 1
     const chunkSize = this.uploader.opts.chunkSize
     const totalSize = this.file.size
-    const _end = chunkNumber*chunkSize
+    const _end = chunkNumber * chunkSize
+    const hash = this.file.hash
     return {
       chunkNumber,
       chunkSize,
-      blockTotal:chunkSize,
+      blockTotal: chunkSize,
       currentChunkSize: this.endByte - this.startByte,
       totalSize,
-      size:totalSize,
+      size: totalSize,
       identifier: this.file.uniqueIdentifier,
       filename: this.file.name,
       relativePath: this.file.relativePath,
       totalChunks: this.file.chunks.length,
-      hash:this.file.hash,
-      start:(chunkNumber-1)*chunkSize,
-      end:_end>totalSize?totalSize:_end,
+      hash,
+      uuid: hash,
+      start: (chunkNumber - 1) * chunkSize,
+      end: _end > totalSize ? totalSize : _end
     }
   },
 

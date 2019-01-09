@@ -159,7 +159,6 @@ utils.extend(Uploader.prototype, {
           var _file = new File(this, file, this)
           _file.uniqueIdentifier = uniqueIdentifier
           _file.hash = hash
-          _file.uuid = hash
           if (this._trigger('fileAdded', _file, evt)) {
             _files.push(_file)
           } else {
